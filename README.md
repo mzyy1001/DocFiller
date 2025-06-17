@@ -1,0 +1,1 @@
+DocFiller is a lightweight tool that scans a primary document for missing sections and automatically fills them using relevant content from a secondary source file.
