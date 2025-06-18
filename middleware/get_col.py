@@ -11,7 +11,7 @@ client = OpenAI(
     base_url="https://api.deepseek.com"  
 )
 
-def read_output_preview(path, char_limit=200):
+def read_output_preview(path, char_limit=500):
     with open(path, 'r', encoding='utf-8') as f:
         content = f.read()
     return content[:char_limit]
@@ -28,7 +28,7 @@ def build_prompt(output_preview, column_samples):
     prompt = f"""你是一个文本分类助手。
 我将给你一个内容片段和若干列的列头与样本数据。
 
-你的任务是：判断内容最可能属于哪一列，请仅返回对应列的索引（从 0 开始），不需要其他解释。
+你的任务是：判断内容最可能属于哪一列，对应的表头，以及对应的被采访人的名字。
 
 内容片段如下：
 \"{output_preview}\"
@@ -37,7 +37,7 @@ def build_prompt(output_preview, column_samples):
 """
     for idx, (col, samples) in enumerate(column_samples.items()):
         prompt += f"{idx} - {col} - {' / '.join(samples)}\n"
-    prompt += "\n请仅返回一个数字，例如：0"
+    prompt += "\n请返回对应的列头，不需要其他内容。只返回列名，不要返回其他的解释。"
     return prompt
 
 def ask_deepseek(prompt):
@@ -69,7 +69,7 @@ def get_col(output_path, csv_path):
     return result
 
 if __name__ == "__main__":
-    output_path = "interview_out/interview_out1.txt"
+    output_path = "interview_out/interview_out3.txt"
     csv_path = "output.csv"
 
     preview = read_output_preview(output_path)

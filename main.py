@@ -122,8 +122,6 @@ def get_question(question_header, original, row_context):
     )
     
     question = res.choices[0].message.content.strip()
-    with open("result/question_log.txt", "a", encoding="utf-8") as f:
-        f.write(f"🧠 生成的问题是：{question}")
     return question
 
 
@@ -136,6 +134,7 @@ def ask_deepseek_multi(full_text,question_header, original, row_context, log_fil
     valid_answers = []
     question = get_question(question_header, original, row_context)
     with open(log_file, "w", encoding="utf-8") as log:
+        log.write(f"🔍 问题：{question}\n")
         for i, chunk in enumerate(tqdm(chunks, desc="🔍 正在生成报告")):
 
             
@@ -146,9 +145,9 @@ def ask_deepseek_multi(full_text,question_header, original, row_context, log_fil
             log.write(f"{'-'*80}\n\n")
 
             simplified = result.strip().replace("。", "").replace(" ", "")
-            if "我无法补充任何内容" not in simplified:
+            valid = simplified != "我无法补充任何内容"
+            if valid:
                 valid_answers.append(f"(From Part {i+1})\n{result.strip()}")
-            valid = "我无法补充任何内容" not in simplified
             tqdm.write(f"✅ Chunk {i+1} processed, valid answer: {valid}")
 
     # 如果没有有效回答，返回默认消息
@@ -173,6 +172,7 @@ def main():
         print(f"Processing {i}th interview...")
         # col_idx = get_col(txt_path, "output.csv")
         col_idx = get_col(txt_path, "output.csv")
+        print(f"Predicted Column Index: {col_idx}")
         relevant_rows = filter_by_column_index("todo_list.csv", col_idx)
         #print(relevant_rows)
         for _, row in relevant_rows.iterrows():
@@ -210,7 +210,8 @@ def main():
                     f.write(f"🧾 Header: {item['Column Header']}\n")
                     f.write(f"❓ Question Header: {item['Question Header']}\n")
                     f.write(f"🤖 AI Completion:\n{item['AI Completion']}\n")
-                    f.write("-" * 60 + "\n\n")           
+                    f.write("-" * 60 + "\n\n")         
+            preview_output.clear()  
         
                     
 

@@ -1,0 +1,14 @@
+# 忽略虚拟环境
+venv/
+
+# 忽略本地配置和秘钥
+.env
+
+# 忽略生成的输出文件
+output.csv
+result/
+interview_out/
+
+# VSCode 设置（可选）
+.vscode/
+
