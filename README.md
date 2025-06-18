@@ -76,7 +76,7 @@ pip install -r requirements.txt
 
 | 类型 | 说明 | 放置位置 |
 |------|------|----------|
-| 采访 Word 文件 | `.docx` 原稿 | `notes/` |
+| 采访 Word 文件 | `.docx` 原稿 | `interveiw/` |
 | 汇总 Excel 文件 | 单个 `.xlsx` | `notes/`（确保只有 1 个） |
 
 ---
