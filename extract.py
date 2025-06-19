@@ -14,7 +14,7 @@ def extract_todo(input_csv, output_csv, keywords=None):
                     "Row Header": row_label,
                     "Content": value,
                     "Row Index": row_index,
-                    "Column Index": col_index
+                    "Column Index": col_index+1
                 })
 
     result_df = pd.DataFrame(result)
