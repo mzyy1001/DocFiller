@@ -2,7 +2,7 @@ import pandas as pd
 
 def extract_todo(input_csv, output_csv, keywords=None):
     if keywords is None:
-        keywords = ["待补充", "需要补充"]
+        keywords = ["待补充", "需要补充", "xx"]
     df = pd.read_csv(input_csv, index_col=0) 
     result = []
 
